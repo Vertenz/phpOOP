@@ -5,6 +5,6 @@ interface IDB
     const TEST_ERROR = 'Er';
     const TEST_ERRORS = ['1','2'];
 
-    public function find($sql);
-    public function findAll($sql);
+    public function find($sql, $params);
+    public function findAll($sql, $params);
 }
