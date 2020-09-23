@@ -11,15 +11,12 @@ echo '<hr>';
 
 use app\services\Autoload;
 
-$testAutoloder = spl_autoload_register([new Autoload(), 'loadClass']);
+spl_autoload_register([new Autoload(), 'loadClass']);
 
-var_dump($testAutoloder);
+$good = new \app\models\Product();
+$goodModel = $good->save();
+echo '<hr>';
 
-$admin = new \app\models\User();
-var_dump($admin);
-
-$userCart = new \app\models\Cart();
-var_dump($userCart);
 
 
 ?>
