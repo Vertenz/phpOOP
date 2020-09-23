@@ -68,7 +68,6 @@ class DB implements IDB
     private function query(string $sql, $params = [])
     {
         $pdoStatement = $this->getConnect()->prepare($sql);
-        var_dump($pdoStatement);
         $pdoStatement->execute($params);
         return $pdoStatement;
     }
