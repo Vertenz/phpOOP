@@ -12,29 +12,29 @@ abstract class Model
      *
      * @return mixed
      */
-    abstract protected function getTableName(): string;
+    abstract protected static function getTableName(): string;
 
     /**
      * @return DB
      */
-    protected function getDB()
+    protected static function getDB()
     {
         return DB::getInstance();
     }
 
-    public function getOne($id)
+    public static function getOne($id)
     {
-        $tableName = $this->getTableName();
+        $tableName = static::getTableName();
         $sql = "SELECT * FROM {$tableName} WHERE id = :id";
         $params = [':id' => $id];
-        return $this->getDB()->createObj($sql, 'app\models\\' . ucfirst($tableName), $params);
+        return static::getDB()->createObj($sql, 'app\models\\' . ucfirst($tableName), $params);
     }
 
-    public function getAll()
+    public static function getAll()
     {
-        $tableName = $this->getTableName();
+        $tableName = static::getTableName();
         $sql = "SELECT * FROM {$tableName}";
-        return $this->getDB()->createObjAll($sql, 'app\models\\' . ucfirst($tableName));
+        return static::getDB()->createObjAll($sql, 'app\models\\' . ucfirst($tableName));
     }
 
     private function getColumns()
@@ -51,7 +51,7 @@ abstract class Model
         return $columnsNames;
     }
 
-    private function insert($params = [])
+    protected function insert($params = [])
     {
         $params = (array) $params;
         unset($params['id']);
@@ -72,7 +72,7 @@ abstract class Model
         return $this->getDB()->exe($sql, $id);
     }
 
-    private function update($element = [])
+    protected function update($element = [])
     {
         $res = false;
         foreach ($this as $key => $value) {
