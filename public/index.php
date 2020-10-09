@@ -8,17 +8,22 @@ error_reporting(E_ALL);
 echo '<hr>';
 
 
-use app\services\Autoload;
 
-spl_autoload_register([new Autoload(), 'loadClass']);
+require_once "../vendor/autoload.php";
 
-
+//$loader = new Twig\Loader\ArrayLoader(['index' => 'Hello {{ name }}']);
+//$twig = new Twig\Environment($loader);
+//echo $twig->render('index', ['name' => 'Fabien']);
 //get url
 $controllerName = $_GET['c'] ?: 'users';
 $actionName = $_GET['a'];
 
 $controllerClass = "app\controllers\\" . ucfirst($controllerName) . "Controller";
 //end url
+
+//twig
+
+
 
 if(class_exists($controllerClass)) {
     $controller = new $controllerClass;

@@ -7,6 +7,7 @@ use app\models\Users;
 
 class UsersController extends MainController
 {
+
     public function allAction()
     {
         $users = Users::getAll();

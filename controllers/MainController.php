@@ -3,11 +3,22 @@
 
 namespace app\controllers;
 
-
+use \Twig\Loader\FilesystemLoader;
+use \Twig\Environment;
 class MainController
 {
+    protected $pathToViews = [__DIR__ . '/../views/',
+    __DIR__ . '/../views/layouts'
+    ];
+    protected $fileLoader;
+    protected $twig;
+    protected $extension = '.twig';
+
     protected $path = __DIR__ . '/../views/';
     protected $actionDefault = 'all';
+
+
+
 
     public function run($action)
     {
@@ -25,13 +36,17 @@ class MainController
 
     public function render($template, $params = [])
     {
-        $content = $this->renderTmpl($template, $params);
-        echo $this->renderTmpl(
-            'layouts/main',
-            [
-                'content' => $content
-            ]
-        );
+        $this->fileLoader = new FilesystemLoader($this->pathToViews);
+        $this->twig = new Environment($this->fileLoader);
+        echo $this->twig->render($template, $params);
+
+//        $content = $this->renderTmpl($template, $params);
+//        echo $this->renderTmpl(
+//            'layouts/main',
+//            [
+//                'content' => $content
+//            ]
+//        );
     }
 
     public function renderTmpl($template, $params = [])
