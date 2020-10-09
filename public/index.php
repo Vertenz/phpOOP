@@ -1,22 +1,21 @@
 <?php
-$path = $_SERVER['DOCUMENT_ROOT'];
-require $path . "/../services/Autoload.php";
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-echo '<hr>';
-
 
 
 require_once "../vendor/autoload.php";
 
-//$loader = new Twig\Loader\ArrayLoader(['index' => 'Hello {{ name }}']);
-//$twig = new Twig\Environment($loader);
-//echo $twig->render('index', ['name' => 'Fabien']);
-//get url
-$controllerName = $_GET['c'] ?: 'users';
-$actionName = $_GET['a'];
+//sessinon block
+$session = new \app\services\Session();
+$session->session();
+//session block end
+echo "session";
+var_dump($_SESSION);
+echo "end session";
+echo '<hr>';
+echo '<hr>';
+
+
+$request = new \app\services\Request();
+$controllerName = $request->getControllerName() ?: 'users';
 
 $controllerClass = "app\controllers\\" . ucfirst($controllerName) . "Controller";
 //end url
@@ -26,8 +25,10 @@ $controllerClass = "app\controllers\\" . ucfirst($controllerName) . "Controller"
 
 
 if(class_exists($controllerClass)) {
-    $controller = new $controllerClass;
-    $controller->run($actionName);
+    $renderer = new \app\services\TwigRenderServices();
+    /** @var \app\controllers\MainController $controller */
+    $controller = new $controllerClass($renderer, $request);
+    echo $controller->run($request->getActionName());
 }else {
     echo "<h1>Else. controllerClass:</h1>";
     var_dump($controllerClass);

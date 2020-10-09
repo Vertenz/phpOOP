@@ -3,21 +3,33 @@
 
 namespace app\controllers;
 
-use \Twig\Loader\FilesystemLoader;
-use \Twig\Environment;
+
+use app\services\RenderI;
+use app\services\Request;
+
 class MainController
 {
-    protected $pathToViews = [__DIR__ . '/../views/',
+    protected $pathsToViews = [__DIR__ . '/../views/',
     __DIR__ . '/../views/layouts'
     ];
-    protected $fileLoader;
-    protected $twig;
-    protected $extension = '.twig';
 
     protected $path = __DIR__ . '/../views/';
     protected $actionDefault = 'all';
 
+    /**
+     * @var RenderServices
+     */
+    protected $renderer;
+    /**
+     * @var Request
+     */
+    protected $request;
 
+    public function __construct(RenderI $renderer, Request $request)
+    {
+        $this->renderer = $renderer;
+        $this->request = $request;
+    }
 
 
     public function run($action)
@@ -34,36 +46,9 @@ class MainController
     }
 
 
-    public function render($template, $params = [])
-    {
-        $this->fileLoader = new FilesystemLoader($this->pathToViews);
-        $this->twig = new Environment($this->fileLoader);
-        echo $this->twig->render($template, $params);
-
-//        $content = $this->renderTmpl($template, $params);
-//        echo $this->renderTmpl(
-//            'layouts/main',
-//            [
-//                'content' => $content
-//            ]
-//        );
-    }
-
-    public function renderTmpl($template, $params = [])
-    {
-        ob_start();
-        extract($params);
-        $templatePath = $this->path . $template . ".php";
-        include $templatePath;
-        return ob_get_clean();
-    }
 
     protected function getId()
     {
-        if (empty($_GET['id'])) {
-            return 0;
-        }
-
-        return (int)$_GET['id'];
+        return $this->request->getId();
     }
 }
