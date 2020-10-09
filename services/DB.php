@@ -68,8 +68,9 @@ class DB implements IDB
     private function query(string $sql, $params = [])
     {
         $pdoStatement = $this->getConnect()->prepare($sql);
-        $pdoStatement->execute($params);
-        return $pdoStatement;
+        if (!$res = $pdoStatement->execute($params)) {
+            return false;
+        }else return $pdoStatement;
     }
 
     public function find($sql, $params)
@@ -97,7 +98,14 @@ class DB implements IDB
     }
 
     public function exe(string $sql, array $params = []) {
-        return $this->query($sql, $params)->rowCount();
+        if (!$res = $this->query($sql, $params)) {
+            return false;
+        }else return true;
+    }
+
+    public function getLastId()
+    {
+        return $this->getConnection()->lastInsertId();
     }
 
 }
