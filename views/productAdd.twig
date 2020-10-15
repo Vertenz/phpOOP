@@ -1,0 +1,14 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}Добавить товар{% endblock %}
+{% block content %}
+    <form action="/product/push/" style="display: flex; flex-direction: column; " method="post">
+        <label for="name">Название товара<input type="text" name="name" id="name"></label>
+        <label for="price">Цена товара<input type="number" name="price" id="price"></label>
+        <label for="description">Описание товара<input type="text" name="description" id="description"></label>
+        <label for="type">Тип товара<input type="text" name="type" id="type"></label>
+        <label for="quantity">Колличество товара<input type="number" name="quantity" id="quantity"></label>
+        <label for="image">Изображение<input type="file" name="image" id="image"></label>
+        <input type="submit" value="Отправить">
+        <h2 id="status"></h2>
+    </form>
+{% endblock %}

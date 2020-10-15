@@ -1,0 +1,27 @@
+{% extends 'layouts/main.twig' %}
+{% block title %} {{ good.name  }}{% endblock %}
+{% block content %}
+    <section class="product center" xmlns="">
+        <div class="single-block">
+            <img src="" alt="{{  good.name }}">
+            <div class="info">
+                <h2 class="info__name">{{ good.name }}</h2>
+                <h3 class="info__type">{{ good.type }}</h3>
+                <p class="info__descriptions">{{ good.descriptions}}</p>
+            </div>
+        </div>
+
+        <div class="buy">
+            <p class="buy_price">{{ good.price }}$</p>
+            <div class="buy__button"><span> {{ good.name }}</span></div>
+            <div>
+                <form action="/cart/add/" method="post">
+                    <input id="qty" type="number" name="qty">
+                    <input type="hidden" value="{{ good.id }}" name="id" id="id">
+                    <input id="add_to_card" type="submit" value="Добавить в корзину">
+                </form>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}

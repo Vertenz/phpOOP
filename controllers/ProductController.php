@@ -10,14 +10,14 @@ class ProductController extends MainController
 {
     public function allAction()
     {
-        $goods = (new ProductRepository())->getAll();
+        $goods = $this->container->productRepository->getAll();
         return $this->renderer->render('productAll', ['goods' => $goods]);
     }
 
     public function oneAction()
     {
         $id = $this->getId();
-        $good = (new ProductRepository())->getOne($id);
+        $good = $this->container->productRepository->getOne($id);
         return $this->renderer->render('productOne', ['good' => $good]);
     }
 
@@ -28,12 +28,13 @@ class ProductController extends MainController
 
     public function pushAction()
     {
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $name = $_POST['name'];
-            $price = $_POST['price'];
-            $description = $_POST['description'];
-            $type = $_POST['type'];
-            $quantity = $_POST['quantity'];
+            $name = $this->request->post('name'); //$_POST['name'];
+            $price = $this->request->post('price');;
+            $description = $this->request->post('description');
+            $type = $this->request->post('type');
+            $quantity = $this->request->post('quantity');
 
 
             $product = new \app\entities\Product();
@@ -43,7 +44,7 @@ class ProductController extends MainController
             $product->type = $type;
             $product->quantity = $quantity;
             $product->img = 'href';
-            if (!$res = (new ProductRepository())->save($product)) {
+            if (!$res = $this->container->productRepository->save($product)) {
                 return "<h1>Insert ERROR in pushAction</h1>";
             } else {
                 echo "<script>
@@ -51,7 +52,7 @@ class ProductController extends MainController
                                insertAdjacentHTML('beforeend', 'товар добавлен');
                           </script>";
             }
-            header("Location: /product/add/");
+            return $this->request->redirect('/product/add/'); //header("Location: /product/add/");
         } else echo "error";
     }
 }

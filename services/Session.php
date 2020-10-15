@@ -18,7 +18,7 @@ class Session
         session_unset();
     }
 
-    public static function get($key, $value = null) {
+    public  function get($key, $value = null) {
         if (!$value) {
             return  $_SESSION["$key"];
         }else {
@@ -26,7 +26,7 @@ class Session
         }
     }
 
-    public static function push($arr, $productId, $productQty) {
+    public  function push($arr, $productId, $productQty) {
         if (isset($arr)) {
             return $_SESSION['cart'][$productId] += $productQty;
         } else {
@@ -34,8 +34,7 @@ class Session
         }
     }
 
-    public static function delete($res, $deleteId) {
-        var_dump($deleteId);
+    public  function delete($res, $deleteId) {
         if ($res <= 1) {
             unset($_SESSION['cart'][$deleteId]);
         } else {

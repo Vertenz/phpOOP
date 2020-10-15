@@ -4,6 +4,7 @@
 namespace app\controllers;
 
 
+use app\main\Container;
 use app\services\RenderI;
 use app\services\Request;
 
@@ -24,9 +25,12 @@ class MainController
      * @var Request
      */
     protected $request;
+/** @var Container  */
+    protected $container;
 
-    public function __construct(RenderI $renderer, Request $request)
+    public function __construct(RenderI $renderer, Request $request, Container $container)
     {
+        $this->container = $container;
         $this->renderer = $renderer;
         $this->request = $request;
     }

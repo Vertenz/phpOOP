@@ -4,18 +4,16 @@
 namespace app\repositories;
 
 
-use app\entities\Product;
-
-class ProductRepository extends Repository
+class VerificationRepository extends Repository
 {
 
     protected function getTableName(): string
     {
-        return 'product';
+        return 'users';
     }
 
     protected function getEntityName(): string
     {
-        return Product::class;
+        return VerificationRepository::class;
     }
 }

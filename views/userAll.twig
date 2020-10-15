@@ -1,0 +1,9 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}Все пользователи{% endblock %}
+{% block content %}
+    {% for user in users  %}
+    <h2>{{ user.login }}</h2>
+    <a href="/users/one?id={{ user.id }}">подробнее</a>
+    <hr>
+    {% endfor %}
+{% endblock %}

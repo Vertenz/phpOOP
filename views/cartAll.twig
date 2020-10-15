@@ -1,0 +1,10 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+    <h2>id = {{ carts.id }}</h2>
+    <h3>qty = {{ carts.qty }}</h3>
+    <form action="/cart/del" method="post">
+        <button type="submit" name="id" value="{{ carts.id }}">delete</button>
+    </form>
+    <hr>
+{% endblock %}

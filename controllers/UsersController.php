@@ -11,14 +11,14 @@ class UsersController extends MainController
 
     public function allAction()
     {
-        $users = (new UsersRepository())->getAll();
+        $users = $this->container->usersRepository->getAll();
         return $this->renderer->render('userAll', ['users' => $users]);
     }
 
     public function oneAction()
     {
         $id = $this->getId();
-        $person = (new UsersRepository())->getOne($id);
+        $person = $this->container->usersRepository->getOne($id);
         return $this->renderer->render('userOne', ['user' => $person,
             'title' => $person->login]);
     }
@@ -31,18 +31,23 @@ class UsersController extends MainController
     public function pushAction()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $login = $_POST['login'];
-            $password = $_POST['password'];
+            $login = $this->request->post('login');
+            $password = $this->request->post('password');
             $user = new Users();
             $user->password = $password;
             $user->login = $login;
-            if (!$res = (new UsersRepository())->save($user)) {
+            if (!$res = $this->container->users->save($user)) {
                 return "<h1>Insert ERROR in pushAction</h1>";
             } else {
                 echo "<h1>Insert ok</h1>>";
             }
-            header("Location: /users/add/");
+            $this->request->redirect('/users/add/');//header("Location: /users/add/");
         } else echo "error";
+    }
+
+    protected function getHash($string)
+    {
+        return md5($string . "d5f8");
     }
 
 

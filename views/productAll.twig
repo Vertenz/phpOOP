@@ -1,0 +1,19 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}Все товары{% endblock %}
+{% block content %}
+    {% for good in goods  %}
+        <div class="product__box">
+            <a href="/product/one?id={{ good.id }}">
+                <img src="" alt="{{ good.name }}" class="product__img"></a>
+            <div class="product__descriptions">
+                <h3 class="product__name">{{ good.name }}</h3>
+                <p class="product__price"><span>{{ good.price }}</span></p>
+                <p class="procduct__type">{{ good.type }}</p>
+                <p class="product__quantuty">В наличии <span>{{ good.quantity }}</span></p>
+            </div>
+            </a>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+

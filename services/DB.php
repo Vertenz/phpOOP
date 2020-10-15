@@ -2,29 +2,22 @@
 
 namespace app\services;
 
-use http\Params;
-
-class DB implements IDB
+class DB
 {
-    private static $item;
 
-    public static function getInstance()
+
+    private $config;
+    private $connect;
+
+    /**
+     * DB constructor.
+     * @param  $config
+     */
+    public function __construct($config)
     {
-        if (empty(static::$item)) {
-            static::$item = new static();
-        }
-        return static::$item;
+        $this->config = $config;
     }
 
-    private $config = [
-        'driver' => 'mysql',
-        'host' => 'localhost',
-        'dbName' => 'application_db',
-        'charset' => 'UTF8',
-        'login' => 'root',
-        'password' => 'VvladmirRwh10'
-    ];
-    private $connect;
 
     public function getConnect()
     {
@@ -50,20 +43,6 @@ class DB implements IDB
         );
     }
 
-    protected function __construct()
-    {
-
-    }
-
-    protected function __clone()
-    {
-
-    }
-
-    protected function __wakeup()
-    {
-
-    }
 
     private function query(string $sql, $params = [])
     {

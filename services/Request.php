@@ -74,6 +74,12 @@ class Request
     public function post($name) {
         return $_POST["$name"];
     }
+
+    function redirect($url)
+    {
+        header("Location: {$url}");
+        exit;
+    }
 }
 
 class errorClass extends \Exception

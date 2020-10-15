@@ -5,21 +5,29 @@ namespace app\repositories;
 
 
 use app\entities\Entity;
+use app\main\Container;
 use app\services\DB;
 use app\services\Session;
 
 
 abstract class Repository
 {
+    /** @var Container */
+    protected $container;
 
     abstract protected  function getTableName(): string;
     abstract protected function getEntityName():string;
+
+    public function setContainer(Container $container) {
+        $this->container = $container;
+    }
+
     /**
      * @return DB
      */
-    protected static function getDB()
+    protected  function getDB()
     {
-        return DB::getInstance();
+        return $this->container->db;
     }
 
     public function getOne($id)
@@ -27,14 +35,14 @@ abstract class Repository
         $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName} WHERE id = :id";
         $params = [':id' => $id];
-        return static::getDB()->createObj($sql, $this->getEntityName(),  $params);
+        return $this->getDB()->createObj($sql, $this->getEntityName(),  $params);
     }
 
     public  function getAll()
     {
         $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName}";
-        return static::getDB()->createObjAll($sql,  $this->getEntityName());
+        return $this->getDB()->createObjAll($sql,  $this->getEntityName());
     }
 
     public  function getAllSession()
@@ -66,7 +74,7 @@ abstract class Repository
         $params = implode("', '", $params);
         $sql = "INSERT INTO {$this->getTableName()} ({$columnsNames})
                 VALUES ('{$params}')";
-        if(!$res = static::getDB()->exe($sql)) {
+        if(!$res = $this->getDB()->exe($sql)) {
             return false;
         }else return true;
     }
@@ -75,7 +83,7 @@ abstract class Repository
     {
         $id = [':id' => $this->id];
         $sql = "DELETE FROM {$this->getTableName()} WHERE id = :id";
-        return static::getDB()->exe($sql, $id);
+        return $this->getDB()->exe($sql, $id);
     }
 
     protected function update($element = [])
@@ -86,7 +94,7 @@ abstract class Repository
                 $params[":{$key}"] = $value;
                 $placeholders = implode(", ", array_keys($params));
                 $sql = "UPDATE {$this->getTableName()} SET {$key} = {$placeholders} WHERE id = {$element['id']}";
-                if (!$ok = static::getDB()->exe($sql, $params)) {
+                if (!$ok = $this->getDB()->exe($sql, $params)) {
                     $res = false;
                 }else {
                     $res = true;

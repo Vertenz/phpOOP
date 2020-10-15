@@ -1,0 +1,7 @@
+{% extends 'layouts/main.twig' %}
+{% block title %} {{ user.login }} {% endblock %}
+{% block content %}
+    <h2>{{ user.login }}</h2>
+    <hr>
+    <a href="/">back <-</a>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'layouts/main.twig' %}
+{% block title %} Sing in {% endblock %}
+{% block content %}
+    <h1>Sing in</h1>
+    <form action="/verification/singin/" method="post">
+        <label for="login">Login</label>
+        <input type="text" name="login" id="login">
+        <label for="">Password</label>
+        <input type="password" name="password" id="password">
+        <input type="submit" value="Sing IN">
+    </form>
+    <br>
+    <hr>
+    <br>
+    <hr>
+    <br>
+    <hr>
+    <h1>Sing up</h1>
+    <form action="/verification/singup/" method="post">
+        <label for="login">Login</label>
+        <input type="text" name="login" id="login">
+        <label for="">Password</label>
+        <input type="password" name="password" id="password">
+        <input type="submit" value="Sing UP">
+    </form>
+{% endblock %}
+{#TODO 1)action at form#}

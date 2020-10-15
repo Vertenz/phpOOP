@@ -4,7 +4,7 @@
 namespace app\entities;
 
 
-abstract class Entity
+class Verification extends Entity
 {
 
 }
